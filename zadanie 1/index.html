@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+</head>
+<body>
+  <div id="root"></div>
+
+  <script>
+    
+    const FILMS = [
+  { id: 1, title: 'Oppenheimer',       year: 2023, genre: 'Dramat',  rating: 5, watched: true  },
+  { id: 2, title: 'Dune: Część druga', year: 2024, genre: 'Sci-Fi',  rating: 4, watched: false },
+  { id: 3, title: 'Past Lives',        year: 2023, genre: 'Romans',  rating: 5, watched: true  },
+  { id: 4, title: 'Poor Things',       year: 2023, genre: 'Komedia', rating: 4, watched: false },
+];
+
+function RatingStars({rating}) {
+  const stars = '★'.repeat(rating) + '☆'.repeat(5 - rating);
+  return React.createElement(
+    "span",
+    null,
+    stars
+  )
+}
+
+function FilmCard({title, year, genre, rating, watched}) {
+  return React.createElement(
+    "div",
+    null, 
+    React.createElement("h3", null, `Title: ${title} Year: ${year} `),
+    React.createElement("span", null, genre),
+    React.createElement(RatingStars, {rating: rating}),
+    React.createElement("p", null, watched === true ? "v" : null)
+  )
+}
+
+function App() {
+  return React.createElement(
+    "div",
+    null,
+    React.createElement("h1", null, "🎬 Biblioteka Filmów"),  
+    ...FILMS.map( t => 
+    React.createElement(FilmCard, {key: t.id,
+       title: t.title,
+       year: t.year,
+       genre: t.genre,
+       rating: t.rating, 
+       watched: t.watched})
+  )
+)
+}
+
+console.log(RatingStars(3))
+
+    ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(React.StrictMode, null,
+        React.createElement(App)
+      ))
+    
+  </script>
+</body>
+</html>
