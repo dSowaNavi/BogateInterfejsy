@@ -8,23 +8,16 @@ export default function FilmsPage() {
   const [refreshKey, setRefreshKey] = useState(0)
   const [search, setSearch] = useState('')
 
-const searchRef = useRef<HTMLInputElement>(null)
+const searchRef = useRef(null)
 
-useEffect(() => {
-  searchRef.current?.focus()
-}, [])
-
-  const { data, loading, error } = useFetch(
+ const { data, loading, error } = useFetch(
     `/api/filmy?v=${refreshKey}`
   )
 
-  if (loading) {
-    return <p>Ładowanie...</p>
-  }
+useEffect(() => {
+  searchRef.current?.focus()  
+}, [])
 
-  if (error) {
-    return <p>{error}</p>
-  }
 
   const filteredFilms = 
     data?.filter((film) =>
@@ -46,8 +39,7 @@ useEffect(() => {
 
       <input
         ref={searchRef}
-        type="text"
-        autoFocus
+        type="text"        
         placeholder="Enter title..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
@@ -66,9 +58,9 @@ useEffect(() => {
         <ul>
           {filteredFilms.map((film) => (
             <li key={film.id}>
-              <Link href={`/filmy/${film.id}`}>
+              <Link  href={`/filmy/${film.id}`} prefetch = {false} replace>
                 {film.title} ({film.year})
-              </Link>
+              </Link>              
             </li>
           ))}
         </ul>
